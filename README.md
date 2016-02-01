@@ -5,3 +5,5 @@ This is for my Computer Science course at Brunel University, module CS2001. This
 Built so far: Basic login (without password right now)
 
 Coming soon: Register, favouriting plaques
+
+Usage: http://SERVERURL:GROUPPORT/tom/Login?email=hello@domain.com (this will return false because hello@domain.com doesn't exist in the database)
