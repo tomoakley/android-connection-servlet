@@ -26,6 +26,26 @@ public class Login extends HttpServlet {
         return response;
     }
 
+    public static boolean checkLogin(String email) throws Exception {
+        boolean userExists = false;
+        Connection dbConnection = null;
+        try {
+            dbConnection = new DBConnection(Constants.DB_URL, Constants.DB_USER, Constants.DB_PASSWORD);
+            Statement statement = dbConnection.createStatement();
+            ResultSet results = statement.executeQuery("SELECT * FROM users WHERE email ='" + email + "'");
+            while (results.next()) {
+                userExists = true;
+            }
+        } catch (Exception e) {
+	    e.printStackTrace(); 
+	    dbConnection.close();
+        } finally {
+            if (dbConnection != null) {
+                dbConnection.close();
+            }
+        }
+        return userExists;
+    }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	response.setContentType("application/json");

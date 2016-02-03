@@ -10,12 +10,18 @@ import javax.naming.*;
 import java.util.*;
 
 public class DBConnection {
+
+    String dbClass, dbUrl, dbUser, dbPassword;
     
-    public static Connection createConnection() throws Exception {
-	Connection con;
+    public static Connection DBConnection(dbClass, dbUrl, dbUser, dbPassword) throws Exception {
+        this.dbClass = dbClass;
+        this.dbUrl = dbUrl;
+        this.dbUser = dbUser;
+        this.dbPassword = dbPassword;
+        Connection con;
 	try {
-	    Class.forName(Constants.DB_CLASS); 
-	    con = DriverManager.getConnection(Constants.DB_URL, Constants.DB_USER, Constants.DB_PASSWORD);
+	    Class.forName(dbClass); 
+	    con = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
         } catch (Exception e) {
 	    e.printStackTrace();
             throw e;
@@ -23,24 +29,4 @@ public class DBConnection {
 	return con;
     }
     
-    public static boolean checkLogin(String email) throws Exception {
-        boolean userExists = false;
-        Connection dbConnection = null;
-        try {
-            dbConnection = createConnection();
-            Statement statement = dbConnection.createStatement();
-            ResultSet results = statement.executeQuery("SELECT * FROM users WHERE email ='" + email + "'");
-            while (results.next()) {
-                userExists = true;
-            }
-        } catch (Exception e) {
-	    e.printStackTrace(); 
-	    dbConnection.close();
-        } finally {
-            if (dbConnection != null) {
-                dbConnection.close();
-            }
-        }
-        return userExists;
-    }
 }
