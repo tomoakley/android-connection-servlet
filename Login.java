@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.*;
 import javax.sql.*;
 import javax.json.*;
-import org.json.JSONObject;
+import org.json.*;
 import java.rmi.*;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
@@ -57,7 +57,7 @@ public class Login extends HttpServlet {
         return userExists;
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, JSONException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	response.setContentType("application/json");
     	PrintWriter out = response.getWriter();
         JSONObject error = new JSONObject(); 
@@ -70,11 +70,7 @@ public class Login extends HttpServlet {
               jResponse = doLogin(email).toString();
               break;
             default:
-              try {
-                error.put("error", "no action specified");
-              } catch (JSONException e) {
-                e.printStackTrace();
-              }
+              error = Utility.addToObject(error, "error", "action not specified"); 
               jResponse = error.toString();
               break;
           }
