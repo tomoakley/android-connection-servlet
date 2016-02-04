@@ -73,10 +73,10 @@ public class Login extends HttpServlet {
               error.put("error", "no action specified");
               break;
           }
-          if (jResponse) {
+          if (jResponse != "") {
             jResponse = jResponse.toString();
           } else {
-            error = error.toString();
+            jResponse = error.toString();
           }
           out.write(jResponse);
         } catch (Exception e) {
