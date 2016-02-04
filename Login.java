@@ -9,6 +9,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.*;
 import javax.json.*;
 import org.json.JSONObject;
+import java.rmi.*;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.server.UnicastRemoteObject;
+import com.mysql.jdbc.jdbc2.optional.*;
+import javax.naming.*;
+import java.util.*;
 
 public class Login extends HttpServlet {
 
@@ -32,6 +38,7 @@ public class Login extends HttpServlet {
         Connection dbConnection = null;
         try {
             dbConnection = new DBConnection(Constants.DB_URL, Constants.DB_USER, Constants.DB_PASSWORD);
+            dbConnection = dbConnection.createConnection();
             Statement statement = dbConnection.createStatement();
             ResultSet results = statement.executeQuery("SELECT * FROM users WHERE email ='" + email + "'");
             while (results.next()) {
