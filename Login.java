@@ -61,10 +61,10 @@ public class Login extends HttpServlet {
 	response.setContentType("application/json");
     	PrintWriter out = response.getWriter();
         JSONObject error = new JSONObject(); 
+        String jResponse;
         try {
           String action = request.getParameter("action").toString();
           String email = request.getParameter("email").toString();
-          String jResponse;
           switch (action) {
             case "login":
               jResponse = doLogin(email).toString();
@@ -74,10 +74,12 @@ public class Login extends HttpServlet {
               jResponse = error.toString();
               break;
           }
-          out.write(jResponse);
         } catch (Exception e) {
           e.printStackTrace();
+          error = Utility.addToObject(error, "error", "action not specified");
+          jResponse = error.toString();
         }
+        out.write(jResponse);
 	out.close();
     }
     
