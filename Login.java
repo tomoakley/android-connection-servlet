@@ -60,9 +60,29 @@ public class Login extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	response.setContentType("application/json");
     	PrintWriter out = response.getWriter();
-	String email = request.getParameter("email").toString();
-	String loginResponse = doLogin(email).toString();
-	out.write(loginResponse);
+        JSONObject error = new JSONObject(); 
+        try {
+          String action = request.getParameter("action").toString();
+          String email = request.getParameter("email").toString();
+          String response;
+          switch (action) {
+            case "login":
+              response = doLogin(email);
+              break;
+            default:
+              error.put("error", "no action specified");
+              break;
+          }
+        } catch (Exception e) {
+          e.printStackTrace();
+          throw e;
+        }
+        if (response) {
+          response = response.toString();
+        } else {
+          error = error.toString();
+        }
+	out.write(response);
 	out.close();
     }
     
