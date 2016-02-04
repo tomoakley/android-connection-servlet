@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet; 
 import javax.servlet.http.HttpServletRequest; 
 import javax.servlet.http.HttpServletResponse;
+import java.sql.*;
 import javax.sql.*;
 import javax.json.*;
 import org.json.JSONObject;
@@ -21,7 +22,7 @@ public class Login extends HttpServlet {
     public JSONObject doLogin(String email) {
 	JSONObject response = new JSONObject();
         boolean result = false;
-	response.put("tag", "login");
+	// response.put("tag", "login");
         if (email != "") {
             try {
                 result = checkLogin(email);
@@ -35,21 +36,22 @@ public class Login extends HttpServlet {
 
     public static boolean checkLogin(String email) throws Exception {
         boolean userExists = false;
-        Connection dbConnection = null;
+        DBConnection dbConnection = null;
+        Connection con = null;
         try {
-            dbConnection = new DBConnection(Constants.DB_URL, Constants.DB_USER, Constants.DB_PASSWORD);
-            dbConnection = dbConnection.createConnection();
-            Statement statement = dbConnection.createStatement();
+            dbConnection = new DBConnection(Constants.DB_CLASS, Constants.DB_URL, Constants.DB_USER, Constants.DB_PASSWORD);
+            con = dbConnection.createConnection();
+            Statement statement = con.createStatement();
             ResultSet results = statement.executeQuery("SELECT * FROM users WHERE email ='" + email + "'");
             while (results.next()) {
                 userExists = true;
             }
         } catch (Exception e) {
 	    e.printStackTrace(); 
-	    dbConnection.close();
+	    con.close();
         } finally {
-            if (dbConnection != null) {
-                dbConnection.close();
+            if (con != null) {
+                con.close();
             }
         }
         return userExists;

@@ -4,6 +4,7 @@ import java.rmi.*;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
 import com.mysql.jdbc.jdbc2.optional.*;
+import java.sql.*;
 import javax.sql.*;
 import javax.naming.*;
 import java.util.*;
