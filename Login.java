@@ -76,8 +76,12 @@ public class Login extends HttpServlet {
           }
         } catch (Exception e) {
           e.printStackTrace();
-          error = Utility.addToObject(error, "error", "action not specified");
-          jResponse = error.toString();
+          try {
+            error = Utility.addToObject(error, "error", "action not specified");
+            jResponse = error.toString();
+          } catch (JSONException e) {
+            e.printStackTrace();
+          }
         }
         out.write(jResponse);
 	out.close();
