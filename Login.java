@@ -67,15 +67,13 @@ public class Login extends HttpServlet {
           String jResponse;
           switch (action) {
             case "login":
-              jResponse = doLogin(email);
+              jResponse = doLogin(email).toString();
               break;
             default:
               error.put("error", "no action specified");
               break;
           }
-          if (jResponse != "") {
-            jResponse = jResponse.toString();
-          } else {
+          if (jResponse == "") {
             jResponse = error.toString();
           }
           out.write(jResponse);
