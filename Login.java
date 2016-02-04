@@ -57,7 +57,7 @@ public class Login extends HttpServlet {
         return userExists;
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, JSONException {
 	response.setContentType("application/json");
     	PrintWriter out = response.getWriter();
         JSONObject error = new JSONObject(); 
@@ -70,16 +70,17 @@ public class Login extends HttpServlet {
               jResponse = doLogin(email).toString();
               break;
             default:
-              error.put("error", "no action specified");
+              try {
+                error.put("error", "no action specified");
+              } catch (JSONException e) {
+                e.printStackTrace();
+              }
+              jResponse = error.toString();
               break;
-          }
-          if (jResponse == "") {
-            jResponse = error.toString();
           }
           out.write(jResponse);
         } catch (Exception e) {
           e.printStackTrace();
-          throw e;
         }
 	out.close();
     }
