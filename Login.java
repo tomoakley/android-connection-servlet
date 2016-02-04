@@ -64,7 +64,7 @@ public class Login extends HttpServlet {
         try {
           String action = request.getParameter("action").toString();
           String email = request.getParameter("email").toString();
-          String response;
+          String jResponse;
           switch (action) {
             case "login":
               response = doLogin(email);
@@ -78,11 +78,11 @@ public class Login extends HttpServlet {
           throw e;
         }
         if (response) {
-          response = response.toString();
+          jResponse = jResponse.toString();
         } else {
           error = error.toString();
         }
-	out.write(response);
+	out.write(jResponse);
 	out.close();
     }
     
