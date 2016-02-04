@@ -13,7 +13,7 @@ public class DBConnection {
 
     String dbClass, dbUrl, dbUser, dbPassword;
     
-    public static Connection DBConnection(dbClass, dbUrl, dbUser, dbPassword) throws Exception {
+    public static Connection DBConnection(String dbClass, String dbUrl, String dbUser, String dbPassword) throws Exception {
         this.dbClass = dbClass;
         this.dbUrl = dbUrl;
         this.dbUser = dbUser;
