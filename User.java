@@ -1,11 +1,15 @@
 package ubiserv.simple.tom;
 
+import java.io.IOException; 
+import java.io.PrintWriter; 
+import javax.servlet.ServletException; 
 import javax.servlet.http.HttpServlet; 
 import javax.servlet.http.HttpServletRequest; 
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.*;
 import javax.json.*;
 import org.json.JSONObject;
+import org.json.JSONException;
 
 public class User extends HttpServlet {
 
@@ -15,8 +19,8 @@ public class User extends HttpServlet {
 	// response.put("tag", "login");
         if (email != "") {
             try {
-                result = new Login(email);
-                result = result.checkLogin();
+                Login login = new Login(email);
+                result = login.checkLogin();
 		response.put("status", result);
             } catch (Exception e) {
 		e.printStackTrace();
@@ -27,12 +31,12 @@ public class User extends HttpServlet {
 
     public JSONObject doRegister(String fName, String lName, String email) {
       JSONObject response = new JSONObject();
-      int userId = result = false;
+      int userId = 0;
       // response.put("tag", "login");
       if (Utility.isNotNull(email) && Utility.isNotNull(fName) && Utility.isNotNull(lName)) {
           try {
-              userId = new Register(fName, lName, email);
-              userId = result.createUser();
+              Register register = new Register(fName, lName, email);
+              userId = register.createUser();
               response.put("userid", userId);
           } catch (Exception e) {
               e.printStackTrace();

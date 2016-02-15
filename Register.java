@@ -24,7 +24,7 @@ public class Register {
         con = dbConnection.createConnection();
         Statement statement = con.createStatement();
         statement.executeUpdate("INSERT INTO users (email, firstName, lastName) VALUES ('" + email + "', '" + fName + "', '" + lName + "')");
-        ResultsSet results = statement.executeQuery("SELECT id FROM users WHERE email='" + email + "'");
+        ResultSet results = statement.executeQuery("SELECT id FROM users WHERE email='" + email + "'");
         while (results.next()) {
           id = results.getInt(1); 
         }
