@@ -11,7 +11,7 @@ public class Login {
     this.email = email;
   }
 
-  public static boolean checkLogin() throws Exception {
+  public boolean checkLogin() throws Exception {
     boolean userExists = false;
     DBConnection dbConnection = null;
     Connection con = null;
