@@ -1,5 +1,12 @@
 package ubiserv.simple.tom;
 
+import javax.servlet.http.HttpServlet; 
+import javax.servlet.http.HttpServletRequest; 
+import javax.servlet.http.HttpServletResponse;
+import javax.sql.*;
+import javax.json.*;
+import org.json.JSONObject;
+
 public class User extends HttpServlet {
 
     public JSONObject doLogin(String email) {

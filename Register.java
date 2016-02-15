@@ -1,5 +1,8 @@
 package ubiserv.simple.tom;
 
+import java.sql.*;
+import javax.sql.*;
+
 public class Register {
 
   String email;
