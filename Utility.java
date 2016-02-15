@@ -14,4 +14,14 @@ public class Utility {
     return object;
   }
 
+  public static boolean isNotNull(String txt){
+    return txt!=null && txt.trim().length()>0 ? true: false;
+  }
+
+  public static boolean validateEmail(String email) {
+    pattern = Pattern.compile(EMAIL_PATTERN);
+    matcher = pattern.matcher(email);
+    return matcher.matches();
+  }
+
 }
