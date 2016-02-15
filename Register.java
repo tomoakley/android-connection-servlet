@@ -6,7 +6,7 @@ public class Register {
   String fName;
   String lName;
 
-  Register(email, fName, lName) {
+  Register(String email, String fName, String lName) {
     this.email = email;
     this.fName = fName;
     this.lName = lName;
@@ -20,8 +20,8 @@ public class Register {
         dbConnection = new DBConnection(Constants.DB_CLASS, Constants.DB_URL, Constants.DB_USER, Constants.DB_PASSWORD);
         con = dbConnection.createConnection();
         Statement statement = con.createStatement();
-        statement.executeUpdate("INSERT INTO users (email, name) VALUES ('". email ."', '". fName ."', '". lName ."')");
-        ResultsSet results = statement.executeQuery("SELECT id FROM users WHERE email='". email ."'");
+        statement.executeUpdate("INSERT INTO users (email, firstName, lastName) VALUES ('" + email + "', '" + fName + "', '" + lName + "')");
+        ResultsSet results = statement.executeQuery("SELECT id FROM users WHERE email='" + email + "'");
         while (results.next()) {
           id = results.getInt(1); 
         }
