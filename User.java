@@ -17,7 +17,7 @@ public class User extends HttpServlet {
 	JSONObject response = new JSONObject();
         boolean result = false;
 	// response.put("tag", "login");
-        if (email != "") {
+        if (isNotNull(email)) {
             try {
                 Login login = new Login(email);
                 result = login.checkLogin();
