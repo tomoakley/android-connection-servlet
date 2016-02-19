@@ -13,37 +13,52 @@ import org.json.JSONException;
 
 public class User extends HttpServlet {
 
-    public JSONObject doLogin(String email) {
-	JSONObject response = new JSONObject();
-        boolean result = false;
-	// response.put("tag", "login");
-        if (isNotNull(email)) {
-            try {
-                Login login = new Login(email);
-                result = login.checkLogin();
-		response.put("status", result);
-            } catch (Exception e) {
-		e.printStackTrace();
-            }
-        }
-        return response;
-    }
-
-    public JSONObject doRegister(String fName, String lName, String email) {
+  public JSONObject checkEmail(String email) {
       JSONObject response = new JSONObject();
-      int userId = 0;
+      boolean result = false;
       // response.put("tag", "login");
-      if (Utility.isNotNull(email) && Utility.isNotNull(fName) && Utility.isNotNull(lName)) {
+      if (Utility.isNotNull(email)) {
           try {
-              Register register = new Register(fName, lName, email);
-              userId = register.createUser();
-              response.put("userid", userId);
+              Login login = new Login();
+              result = login.checkEmail(email);
+              response.put("status", result);
           } catch (Exception e) {
               e.printStackTrace();
           }
       }
       return response;
+  }
+
+  public JSONObject doLogin(String email, String password) {
+    JSONObject response = new JSONObject();
+    int userID = 0;
+    if (Utility.isNotNull(email) {
+      try {
+        Login login = new Login();
+        userID = login.checkMatch(email, password);
+        response.put("userid", userID);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
     }
+    return response;
+  }
+
+  public JSONObject doRegister(String fName, String lName, String email) {
+    JSONObject response = new JSONObject();
+    int userId = 0;
+    // response.put("tag", "login");
+    if (Utility.isNotNull(email) && Utility.isNotNull(fName) && Utility.isNotNull(lName)) {
+        try {
+            Register register = new Register(fName, lName, email);
+            userId = register.createUser();
+            response.put("userid", userId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    return response;
+  }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	response.setContentType("application/json");
@@ -54,8 +69,11 @@ public class User extends HttpServlet {
           String action = request.getParameter("action").toString();
           String email = request.getParameter("email").toString();
           switch (action) {
+            case "checkemail":
+              jResponse = checkEmail(email).toString();
+              break;
             case "login":
-              jResponse = doLogin(email).toString();
+              jResponse = doLogin(email, "notset").toString();
               break;
             case "register":
               String firstName = request.getParameter("firstName").toString();

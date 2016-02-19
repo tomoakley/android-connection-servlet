@@ -5,13 +5,7 @@ import java.sql.*;
 
 public class Login {
   
-  String email; 
-
-  Login(String email) {
-    this.email = email;
-  }
-
-  public boolean checkLogin() throws Exception {
+  public boolean checkEmail(String email) throws Exception {
     boolean userExists = false;
     DBConnection dbConnection = null;
     Connection con = null;
@@ -19,9 +13,11 @@ public class Login {
         dbConnection = new DBConnection(Constants.DB_CLASS, Constants.DB_URL, Constants.DB_USER, Constants.DB_PASSWORD);
         con = dbConnection.createConnection();
         Statement statement = con.createStatement();
-        ResultSet results = statement.executeQuery("SELECT * FROM users WHERE email ='" + email + "'");
+        ResultSet results = statement.executeQuery("SELECT email FROM users WHERE email ='" + email + "'");
         while (results.next()) {
+          if (results.getString(1) == email) {
             userExists = true;
+          }
         }
     } catch (Exception e) {
         e.printStackTrace(); 
@@ -32,6 +28,29 @@ public class Login {
         }
     }
     return userExists;
+  }
+
+  public int checkMatch(String email, String password) {
+    int userID = 0;
+    DBConnection dbConnection = null;
+    Connection con = null;
+    try {
+        dbConnection = new DBConnection(Constants.DB_CLASS, Constants.DB_URL, Constants.DB_USER, Constants.DB_PASSWORD);
+        con = dbConnection.createConnection();
+        Statement statement = con.createStatement();
+        ResultSet results = statement.executeQuery("SELECT id FROM users WHERE email ='" + email + "'");
+        while (results.next()) {
+            userID = results.getInt(1);
+        }
+    } catch (Exception e) {
+        e.printStackTrace(); 
+        con.close();
+    } finally {
+        if (con != null) {
+            con.close();
+        }
+    }
+    return userID;
   }
 
 }
