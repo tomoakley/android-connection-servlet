@@ -30,7 +30,7 @@ public class Login {
     return userExists;
   }
 
-  public int checkMatch(String email, String password) {
+  public int checkMatch(String email, String password) throws Exception {
     int userID = 0;
     DBConnection dbConnection = null;
     Connection con = null;

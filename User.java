@@ -32,7 +32,7 @@ public class User extends HttpServlet {
   public JSONObject doLogin(String email, String password) {
     JSONObject response = new JSONObject();
     int userID = 0;
-    if (Utility.isNotNull(email) {
+    if (Utility.isNotNull(email)) {
       try {
         Login login = new Login();
         userID = login.checkMatch(email, password);
