@@ -15,7 +15,9 @@ public class Login {
         Statement statement = con.createStatement();
         ResultSet results = statement.executeQuery("SELECT email FROM users WHERE email ='" + email + "'");
         while (results.next()) {
-          if (results.getString(1) == email) {
+          String resultsEmail = results.getString(1);
+          System.out.println("resultsEmail: " + resultsEmail);
+          if (resultsEmail == email) {
             userExists = true;
           }
         }
