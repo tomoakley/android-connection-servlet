@@ -35,7 +35,7 @@ public class Plaque extends HttpServlet {
     try {
       String action = request.getParameter("action").toString();
       int plaqueId = Integer.parseInt(request.getParameter("plaqueid"));
-      int userId = Integer.parseInt(request.getParameter("userId");
+      int userId = Integer.parseInt(request.getParameter("userId"));
       switch (action) {
         case "favourite":
           jResponse = favourite(plaqueId, userId).toString();
