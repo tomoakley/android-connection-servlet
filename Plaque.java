@@ -15,12 +15,12 @@ public class Plaque extends HttpServlet {
 
   public JSONObject favourite(int plaqueId, int userId) {
       JSONObject response = new JSONObject();
-      boolean result = false;
+      int id = 0;
       // response.put("tag", "login");
       try {
-        PlaqueAction plaqueAction = new plaqueAction(plaqueId, userId);
+        PlaqueAction plaqueAction = new PlaqueAction(plaqueId, userId);
         result = plaqueAction.favourite();
-        response.put("status", result);
+        response.put("status", id);
       } catch (Exception e) {
         e.printStackTrace();
       }
