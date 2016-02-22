@@ -2,6 +2,8 @@ package ubiserv.simple.tom;
 
 import java.sql.*;
 import javax.sql.*;
+import java.util.Date;
+import java.util.Calendar;
 
 public class PlaqueAction {
 
@@ -21,8 +23,9 @@ public class PlaqueAction {
         dbConnection = new DBConnection(Constants.DB_CLASS, Constants.DB_URL, Constants.DB_USER, Constants.DB_PASSWORD);
         con = dbConnection.createConnection();
         Statement statement = con.createStatement();
-        statement.executeUpdate("INSERT INTO favouritePlaques (userId, plaqueId) VALUES ('" + user + "', '" + plaque + "')");
-        ResultSet result = statement.executeQuery("SELECT id WHERE userId='" + user + "' AND plaqueId='" + plaque + "'");
+	java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
+	statement.executeUpdate("INSERT INTO favouritePlaques (userId, plaqueId, datetime) VALUES ('" + user + "', '" + plaque + "', '" + currentTimestamp + "')");
+        ResultSet result = statement.executeQuery("SELECT id FROM favouritePlaques WHERE userId='" + user + "' AND plaqueId='" + plaque + "'");
         while (result.next()) {
           id = result.getInt(1);
         }
