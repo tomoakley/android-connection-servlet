@@ -23,11 +23,17 @@ public class PlaqueAction {
         dbConnection = new DBConnection(Constants.DB_CLASS, Constants.DB_URL, Constants.DB_USER, Constants.DB_PASSWORD);
         con = dbConnection.createConnection();
         Statement statement = con.createStatement();
+        ResultSet preInsert = statement.executeQuery("SELECT id FROM favouritePlaques WHERE userId='" + user + "' AND plaqueId='" + plaque + "'");
+        while (preInsert.next()) {
+          id = result.getInt(1);
+          return id;
+        }
 	java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
 	statement.executeUpdate("INSERT INTO favouritePlaques (userId, plaqueId, datetime) VALUES ('" + user + "', '" + plaque + "', '" + currentTimestamp + "')");
         ResultSet result = statement.executeQuery("SELECT id FROM favouritePlaques WHERE userId='" + user + "' AND plaqueId='" + plaque + "'");
         while (result.next()) {
           id = result.getInt(1);
+          return id;
         }
     } catch (Exception e) {
         e.printStackTrace(); 
