@@ -22,7 +22,7 @@ public class PlaqueAction {
         con = dbConnection.createConnection();
         Statement statement = con.createStatement();
         statement.executeUpdate("INSERT INTO favouritePlaques (userId, plaqueId) VALUES ('" + user + "', '" + plaque + "')");
-        ResultSet result = statement.executeQuery("SELECT id WHERE userId='". user ."' AND plaqueId='". plaque ."'");
+        ResultSet result = statement.executeQuery("SELECT id WHERE userId='" + user + "' AND plaqueId='" + plaque + "'");
         while (result.next()) {
           id = result.getInt(1);
         }
