@@ -19,7 +19,7 @@ public class Plaque extends HttpServlet {
       // response.put("tag", "login");
       try {
         PlaqueAction plaqueAction = new PlaqueAction(plaqueId, userId);
-        result = plaqueAction.favourite();
+        id = plaqueAction.favourite();
         response.put("status", id);
       } catch (Exception e) {
         e.printStackTrace();
