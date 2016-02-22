@@ -13,7 +13,7 @@ public class PlaqueAction {
     this.user = user;
   }
 
-  public int favourite() {
+  public int favourite() throws Exception {
     DBConnection dbConnection = null;
     Connection con = null;
     int id = 0;
