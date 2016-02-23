@@ -38,11 +38,11 @@ public class Plaque extends HttpServlet {
       int userId = Integer.parseInt(request.getParameter("userid"));
       switch (action) {
         case "favourite":
-          jResponse = favourite(plaqueId, userId).toString();
+          jResponse = favourite(action, plaqueId, userId).toString();
           break;
-        /* case "visited":
-          jResponse = visited(plaqueId, userId).toString();
-          break; */
+        case "unfavourite":
+          jResponse = favourite(action, plaqueId, userId).toString();
+          break;
         default:
           error = Utility.addToObject(error, "error", "action not specified"); 
           jResponse = error.toString();

@@ -46,4 +46,28 @@ public class PlaqueAction {
     return id;
   }
 
+  public boolean unfavourite() throws Exception {
+    DBConnection dbConnection = null;
+    Connection con = null;
+    boolean result = false; 
+    try {
+        dbConnection = new DBConnection(Constants.DB_CLASS, Constants.DB_URL, Constants.DB_USER, Constants.DB_PASSWORD);
+        con = dbConnection.createConnection();
+        Statement statement = con.createStatement();
+        int rowsAffected = statement.executeUpdate("DELETE FROM favouritePlaques WHERE userId='" + user + "' AND plaqueId='" + plaque + "'");
+        if (rowsAffected == 1) {
+          result = true;
+          return result;
+        }
+    } catch (Exception e) {
+        e.printStackTrace(); 
+        con.close();
+    } finally {
+        if (con != null) {
+            con.close();
+        }
+    }
+    return result;
+  }
+
 }
