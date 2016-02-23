@@ -13,14 +13,24 @@ import org.json.JSONException;
 
 public class Plaque extends HttpServlet {
 
-  public JSONObject favourite(int plaqueId, int userId) {
+  public JSONObject favourite(String action, int plaqueId, int userId) {
       JSONObject response = new JSONObject();
       int id = 0;
-      // response.put("tag", "login");
+      boolean result = false;
       try {
         PlaqueAction plaqueAction = new PlaqueAction(plaqueId, userId);
-        id = plaqueAction.favourite();
-        response.put("id", id);
+        switch (action) {
+          case "favourite":
+            id = plaqueAction.favourite();
+            response.put("id", id);
+            break;
+          case "unfavourite":
+            result = plaqueAction.unfavourite();
+            response.put("status", result);
+            break;
+          default:
+            break;
+        }
       } catch (Exception e) {
         e.printStackTrace();
       }
