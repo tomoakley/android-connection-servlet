@@ -40,7 +40,7 @@ public class PlaqueAction {
     return result;
   }
 
-  public boolean favourite() throws Exception {
+  public boolean favourite(String action) throws Exception {
     DBConnection dbConnection = null;
     Connection con = null;
     boolean result = false;
