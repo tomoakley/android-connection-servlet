@@ -20,9 +20,9 @@ public class Plaque extends HttpServlet {
         PlaqueAction plaqueAction = new PlaqueAction(plaqueId, userId);
         switch (action) {
           case "check":
-            result = plaqueAction.checkFavourite(action);
+            result = plaqueAction.checkFavourite();
           case "favourite": case "unfavourite":
-            result = plaqueAction.favourite();
+            result = plaqueAction.favourite(action);
             break;
           default:
             break;
@@ -39,15 +39,16 @@ public class Plaque extends HttpServlet {
     PrintWriter out = response.getWriter();
     JSONObject error = new JSONObject(); 
     String jResponse = null;
+    String action = "";
     try {
-      String action = request.getParameter("action").toString();
+      action = request.getParameter("action").toString();
       int plaqueId = Integer.parseInt(request.getParameter("plaqueid"));
       int userId = Integer.parseInt(request.getParameter("userid"));
       jResponse = favourite(action, plaqueId, userId).toString();
     } catch (Exception e) {
       e.printStackTrace();
       try {
-        if (Utility.isNotNull(action)) {
+        if (!Utility.isNotNull(action)) {
           error = Utility.addToObject(error, "error", "action not specified");
         } else {
           error = Utility.addToObject(error, "error", "unknown error");
