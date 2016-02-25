@@ -15,27 +15,21 @@ public class PlaqueAction {
     this.user = user;
   }
 
-  public int favourite() throws Exception {
+  public boolean checkFavourite() throws Exception {
     DBConnection dbConnection = null;
     Connection con = null;
-    int id = 0;
+    boolean result = false;
     try {
         dbConnection = new DBConnection(Constants.DB_CLASS, Constants.DB_URL, Constants.DB_USER, Constants.DB_PASSWORD);
         con = dbConnection.createConnection();
         Statement statement = con.createStatement();
-        ResultSet preInsert = statement.executeQuery("SELECT id FROM favouritePlaques WHERE userId='" + user + "' AND plaqueId='" + plaque + "'");
-        while (preInsert.next()) {
-          id = result.getInt(1);
-          return id;
+        ResultSet results = statement.executeQuery("SELECT id FROM favouritePlaques WHERE userId='" + user + "' AND plaqueId='" + plaque + "'");
+        if (results.next()) {
+          result = true;
+          con.close();
+          return result;
         }
-	java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
-	statement.executeUpdate("INSERT INTO favouritePlaques (userId, plaqueId, datetime) VALUES ('" + user + "', '" + plaque + "', '" + currentTimestamp + "')");
-        ResultSet result = statement.executeQuery("SELECT id FROM favouritePlaques WHERE userId='" + user + "' AND plaqueId='" + plaque + "'");
-        while (result.next()) {
-          id = result.getInt(1);
-          return id;
-        }
-    } catch (Exception e) {
+      } catch (Exception e) {
         e.printStackTrace(); 
         con.close();
     } finally {
@@ -43,18 +37,24 @@ public class PlaqueAction {
             con.close();
         }
     }
-    return id;
+    return result;
   }
 
-  public boolean unfavourite() throws Exception {
+  public boolean favourite() throws Exception {
     DBConnection dbConnection = null;
     Connection con = null;
-    boolean result = false; 
+    boolean result = false;
     try {
         dbConnection = new DBConnection(Constants.DB_CLASS, Constants.DB_URL, Constants.DB_USER, Constants.DB_PASSWORD);
         con = dbConnection.createConnection();
         Statement statement = con.createStatement();
-        int rowsAffected = statement.executeUpdate("DELETE FROM favouritePlaques WHERE userId='" + user + "' AND plaqueId='" + plaque + "'");
+        int rowsAffected = 0;
+        if (action == "favourite") {
+          java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
+          rowsAffected = statement.executeUpdate("INSERT INTO favouritePlaques (userId, plaqueId, datetime) VALUES ('" + user + "', '" + plaque + "', '" + currentTimestamp + "')");
+        } else if (action == "unfavourite") {
+          rowsAffected = statement.executeUpdate("DELETE FROM favouritePlaques WHERE userId='" + user + "' AND plaqueId='" + plaque + "'");
+        }
         if (rowsAffected == 1) {
           result = true;
           return result;

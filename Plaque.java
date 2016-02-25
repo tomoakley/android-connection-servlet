@@ -46,22 +46,15 @@ public class Plaque extends HttpServlet {
       String action = request.getParameter("action").toString();
       int plaqueId = Integer.parseInt(request.getParameter("plaqueid"));
       int userId = Integer.parseInt(request.getParameter("userid"));
-      switch (action) {
-        case "favourite":
-          jResponse = favourite(action, plaqueId, userId).toString();
-          break;
-        case "unfavourite":
-          jResponse = favourite(action, plaqueId, userId).toString();
-          break;
-        default:
-          error = Utility.addToObject(error, "error", "action not specified"); 
-          jResponse = error.toString();
-          break;
-      }
+      jResponse = favourite(action, plaqueId, userId).toString();
     } catch (Exception e) {
       e.printStackTrace();
       try {
-        error = Utility.addToObject(error, "error", "action not specified");
+        if (Utility.isNotNull(action)) {
+          error = Utility.addToObject(error, "error", "action not specified");
+        } else {
+          error = Utility.addToObject(error, "error", "unknown error");
+        }
         jResponse = error.toString();
       } catch (JSONException json) {
         json.printStackTrace();
