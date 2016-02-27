@@ -60,6 +60,37 @@ public class User extends HttpServlet {
     return response;
   }
 
+  public JSONObject getDetails(int userId, String[] parameters) throws Exception {
+    JSONObject response = new JSONObject();
+    String paramString = "";
+    for (int i = 0; i < parameters.length; i++) {
+      paramString += parameters[i];
+      if (i < parameters.length - 1) {
+        paramString += ", ";
+      }
+    }
+    System.out.println(paramString);
+    try {
+      dbConnection = new DBConnection(Constants.DB_CLASS, Constants.DB_URL, Constants.DB_USER, Constants.DB_PASSWORD);
+      con = dbConnection.createConnection();
+      Statement statement = con.createStatement();
+      ResultSet results = statement.executeQuery("SELECT " + paramString + " FROM users WHERE email ='" + email + "'"); 
+      while (results.next()) {
+        for (int j = 0; i < parameters.length; i++) {
+          response.put(parameters[i], results.getString(i+1);
+        }
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      con.close();
+    } finally {
+      if (con != null) {
+        con.close();
+      }
+    }
+    return response;
+  }
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	response.setContentType("application/json");
     	PrintWriter out = response.getWriter();
@@ -80,6 +111,10 @@ public class User extends HttpServlet {
               String lastName = request.getParameter("lastName").toString();
               jResponse = doRegister(email, firstName, lastName).toString();
               break;
+            case "getdetails":
+              String[] params = request.getParameterValues("params");
+              int userId = Integer.parseInt(request.getParameter("userid"));
+              jResponse = getDetails(userId, params).toString();
             default:
               error = Utility.addToObject(error, "error", "action not specified"); 
               jResponse = error.toString();
