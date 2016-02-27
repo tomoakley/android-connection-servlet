@@ -55,7 +55,7 @@ public class Login {
     return userID;
   }
 
-  public HashMap<String, String> getDetails(int userId, String[] params) {
+  public HashMap<String, String> getDetails(int userId, String[] params) throws Exception {
     DBConnection dbConnection = null;
     Connection con = null;
     String paramString = "";
@@ -71,10 +71,10 @@ public class Login {
       dbConnection = new DBConnection(Constants.DB_CLASS, Constants.DB_URL, Constants.DB_USER, Constants.DB_PASSWORD);
       con = dbConnection.createConnection();
       Statement statement = con.createStatement();
-      ResultSet results = statement.executeQuery("SELECT " + paramString + " FROM users WHERE email ='" + email + "'"); 
+      ResultSet results = statement.executeQuery("SELECT " + paramString + " FROM users WHERE userId ='" + userId + "'"); 
       while (results.next()) {
         for (int j = 0; j < params.length; j++) {
-          details.put(params[i], results.getString(i+1));
+          details.put(params[j], results.getString(j+1));
         }
       }
     } catch (Exception e) {
