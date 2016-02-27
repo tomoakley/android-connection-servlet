@@ -99,6 +99,7 @@ public class User extends HttpServlet {
               String[] params = request.getParameterValues("params");
               int userId = Integer.parseInt(request.getParameter("userid"));
               jResponse = getDetails(userId, params).toString();
+              break;
             default:
               error = Utility.addToObject(error, "error", "action not specified"); 
               jResponse = error.toString();
