@@ -19,8 +19,8 @@ public class Plaque extends HttpServlet {
       try {
         PlaqueAction plaqueAction = new PlaqueAction(plaqueId, userId);
         switch (action) {
-          case "check":
-            result = plaqueAction.checkfavourite();
+          case "checkfavourite":
+            result = plaqueAction.checkFavourite();
           case "favourite": case "unfavourite":
             result = plaqueAction.favourite(action);
             break;

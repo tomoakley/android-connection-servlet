@@ -10,6 +10,7 @@ import javax.sql.*;
 import javax.json.*;
 import org.json.JSONObject;
 import org.json.JSONException;
+import java.util.HashMap;
 
 public class User extends HttpServlet {
 
@@ -61,32 +62,12 @@ public class User extends HttpServlet {
   }
 
   public JSONObject getDetails(int userId, String[] parameters) throws Exception {
-    JSONObject response = new JSONObject();
-    String paramString = "";
-    for (int i = 0; i < parameters.length; i++) {
-      paramString += parameters[i];
-      if (i < parameters.length - 1) {
-        paramString += ", ";
-      }
-    }
-    System.out.println(paramString);
     try {
-      dbConnection = new DBConnection(Constants.DB_CLASS, Constants.DB_URL, Constants.DB_USER, Constants.DB_PASSWORD);
-      con = dbConnection.createConnection();
-      Statement statement = con.createStatement();
-      ResultSet results = statement.executeQuery("SELECT " + paramString + " FROM users WHERE email ='" + email + "'"); 
-      while (results.next()) {
-        for (int j = 0; i < parameters.length; i++) {
-          response.put(parameters[i], results.getString(i+1);
-        }
-      }
+      Login user = new Login();
+      HashMap<String, String> details = user.getDetails(userId, parameters);
+      JSONObject response = new JSONObject(details);
     } catch (Exception e) {
       e.printStackTrace();
-      con.close();
-    } finally {
-      if (con != null) {
-        con.close();
-      }
     }
     return response;
   }
