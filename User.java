@@ -62,12 +62,15 @@ public class User extends HttpServlet {
   }
 
   public JSONObject getDetails(int userId, String[] parameters) throws Exception {
+    JSONObject response;
     try {
       Login user = new Login();
       HashMap<String, String> details = user.getDetails(userId, parameters);
-      JSONObject response = new JSONObject(details);
+      response = new JSONObject(details);
     } catch (Exception e) {
       e.printStackTrace();
+      response = new JSONObject();
+      response.put("error", "an error occurred");
     }
     return response;
   }

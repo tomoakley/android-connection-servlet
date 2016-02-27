@@ -56,6 +56,8 @@ public class Login {
   }
 
   public HashMap<String, String> getDetails(int userId, String[] params) {
+    DBConnection dbConnection = null;
+    Connection con = null;
     String paramString = "";
     HashMap<String, String> details = new HashMap<>();
     for (int i = 0; i < params.length; i++) {
