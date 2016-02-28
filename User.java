@@ -82,15 +82,18 @@ public class User extends HttpServlet {
         String jResponse = null;
         try {
           String action = request.getParameter("action").toString();
-          String email = request.getParameter("email").toString();
+          String email;
           switch (action) {
             case "checkemail":
+	      email = request.getParameter("email").toString();
               jResponse = checkEmail(email).toString();
               break;
             case "login":
+	      email = request.getParameter("email").toString();
               jResponse = doLogin(email, "notset").toString();
               break;
             case "register":
+	      email = request.getParameter("email").toString();
               String firstName = request.getParameter("firstName").toString();
               String lastName = request.getParameter("lastName").toString();
               jResponse = doRegister(email, firstName, lastName).toString();

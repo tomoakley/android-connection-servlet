@@ -66,12 +66,11 @@ public class Login {
         paramString += ", ";
       }
     }
-    System.out.println(paramString);
     try {
       dbConnection = new DBConnection(Constants.DB_CLASS, Constants.DB_URL, Constants.DB_USER, Constants.DB_PASSWORD);
       con = dbConnection.createConnection();
       Statement statement = con.createStatement();
-      ResultSet results = statement.executeQuery("SELECT " + paramString + " FROM users WHERE userId ='" + userId + "'"); 
+      ResultSet results = statement.executeQuery("SELECT " + paramString + " FROM users WHERE id ='" + userId + "'"); 
       while (results.next()) {
         for (int j = 0; j < params.length; j++) {
           details.put(params[j], results.getString(j+1));

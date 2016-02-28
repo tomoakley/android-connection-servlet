@@ -49,10 +49,10 @@ public class PlaqueAction {
         con = dbConnection.createConnection();
         Statement statement = con.createStatement();
         int rowsAffected = 0;
-        if (action == "favourite") {
+        if (action.equals("favourite")) {
           java.sql.Timestamp currentTimestamp = new java.sql.Timestamp(Calendar.getInstance().getTime().getTime());
           rowsAffected = statement.executeUpdate("INSERT INTO favouritePlaques (userId, plaqueId, datetime) VALUES ('" + user + "', '" + plaque + "', '" + currentTimestamp + "')");
-        } else if (action == "unfavourite") {
+        } else if (action.equals("unfavourite")) {
           rowsAffected = statement.executeUpdate("DELETE FROM favouritePlaques WHERE userId='" + user + "' AND plaqueId='" + plaque + "'");
         }
         if (rowsAffected == 1) {
