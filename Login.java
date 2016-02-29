@@ -3,7 +3,7 @@ package ubiserv.simple.tom;
 import javax.sql.*;
 import java.sql.*;
 import java.util.HashMap;
-
+import java.util.ArrayList;
 
 public class Login {
   
@@ -97,11 +97,9 @@ public class Login {
       dbConnection = new DBConnection(Constants.DB_CLASS, Constants.DB_URL, Constants.DB_USER, Constants.DB_PASSWORD);
       con = dbConnection.createConnection();
       Statement statement = con.createStatement();
-      ResultSet results = statement.executeQuery("SELECT plaqueId FROM users WHERE userId ='" + userId + "'"); 
+      ResultSet results = statement.executeQuery("SELECT plaqueId FROM favouritePlaques WHERE userId ='" + userId + "'"); 
       while (results.next()) {
-        for (int j = 0; j < params.length; j++) {
-          favourites.add(results.getInt(j+1));
-        }
+	favourites.add(results.getInt("plaqueId"));
       }
     } catch (Exception e) {
       e.printStackTrace();

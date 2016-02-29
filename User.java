@@ -81,7 +81,7 @@ public class User extends HttpServlet {
     try {
       Login user = new Login();
       ArrayList<Integer> favourites = user.getFavourites(userId);
-      response.put("ids", favourites);
+      response.put("list", favourites);
     } catch (Exception e) {
       e.printStackTrace();
       response.put("error", "an error occurred");
@@ -99,6 +99,7 @@ public class User extends HttpServlet {
         try {
           String action = request.getParameter("action").toString();
           String email;
+	  int userId;
           switch (action) {
             case "checkemail":
 	      email = request.getParameter("email").toString();
@@ -116,11 +117,11 @@ public class User extends HttpServlet {
               break;
             case "getdetails":
               String[] params = request.getParameterValues("params");
-              int userId = Integer.parseInt(request.getParameter("userid"));
+              userId = Integer.parseInt(request.getParameter("userid"));
               jResponse = getDetails(userId, params).toString();
               break;
             case "getfavourites":
-              int userId = Integer.parseInt(request.getParameter("userid"));
+              userId = Integer.parseInt(request.getParameter("userid"));
               jResponse = getFavourites(userId).toString();
               break;
             default:
