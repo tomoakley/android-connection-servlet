@@ -11,6 +11,7 @@ import javax.json.*;
 import org.json.JSONObject;
 import org.json.JSONException;
 import java.util.HashMap;
+import java.util.ArrayList;
 
 public class User extends HttpServlet {
 
@@ -75,6 +76,21 @@ public class User extends HttpServlet {
     return response;
   }
 
+  public JSONObject getFavourites(int userId) throws Exception {
+    JSONObject response = new JSONObject();
+    try {
+      Login user = new Login();
+      ArrayList<Integer> favourites = user.getFavourites(userId);
+      response.put("ids", favourites);
+    } catch (Exception e) {
+      e.printStackTrace();
+      response.put("error", "an error occurred");
+    }
+    return response;
+  }
+
+
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	response.setContentType("application/json");
     	PrintWriter out = response.getWriter();
@@ -102,6 +118,10 @@ public class User extends HttpServlet {
               String[] params = request.getParameterValues("params");
               int userId = Integer.parseInt(request.getParameter("userid"));
               jResponse = getDetails(userId, params).toString();
+              break;
+            case "getfavourites":
+              int userId = Integer.parseInt(request.getParameter("userid"));
+              jResponse = getFavourites(userId).toString();
               break;
             default:
               error = Utility.addToObject(error, "error", "action not specified"); 

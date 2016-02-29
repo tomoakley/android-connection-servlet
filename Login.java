@@ -4,6 +4,7 @@ import javax.sql.*;
 import java.sql.*;
 import java.util.HashMap;
 
+
 public class Login {
   
   public boolean checkEmail(String email) throws Exception {
@@ -86,5 +87,32 @@ public class Login {
     }
     return details;
   }
+
+  public ArrayList<Integer> getFavourites(int userId) throws Exception {
+    DBConnection dbConnection = null;
+    Connection con = null;
+    String paramString = "";
+    ArrayList<Integer> favourites = new ArrayList<>();
+    try {
+      dbConnection = new DBConnection(Constants.DB_CLASS, Constants.DB_URL, Constants.DB_USER, Constants.DB_PASSWORD);
+      con = dbConnection.createConnection();
+      Statement statement = con.createStatement();
+      ResultSet results = statement.executeQuery("SELECT plaqueId FROM users WHERE userId ='" + userId + "'"); 
+      while (results.next()) {
+        for (int j = 0; j < params.length; j++) {
+          favourites.add(results.getInt(j+1));
+        }
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      con.close();
+    } finally {
+      if (con != null) {
+        con.close();
+      }
+    }
+    return favourites;
+  }
+
 
 }
