@@ -88,7 +88,7 @@ public class Login {
     return details;
   }
 
-  public ArrayList<Integer> getFavourites(int userId, String[] orderBy) throws Exception {
+  public ArrayList<Integer> getFavourites(int userId, String orderByCol, String orderByDir) throws Exception {
     DBConnection dbConnection = null;
     Connection con = null;
     String paramString = "";

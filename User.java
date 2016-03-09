@@ -76,11 +76,11 @@ public class User extends HttpServlet {
     return response;
   }
 
-  public JSONObject getFavourites(int userId, String[] orderBy) throws Exception {
+  public JSONObject getFavourites(int userId, String orderByCol, String orderByDir) throws Exception {
     JSONObject response = new JSONObject();
     try {
       Login user = new Login();
-      ArrayList<Integer> favourites = user.getFavourites(userId, orderBy);
+      ArrayList<Integer> favourites = user.getFavourites(userId, orderByCol, orderByDir);
       response.put("list", favourites);
     } catch (Exception e) {
       e.printStackTrace();
@@ -90,57 +90,57 @@ public class User extends HttpServlet {
   }
 
 
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	response.setContentType("application/json");
-    	PrintWriter out = response.getWriter();
-        JSONObject error = new JSONObject(); 
-        String jResponse = null;
-        try {
-          String action = request.getParameter("action").toString();
-          String email;
-	  int userId;
-          switch (action) {
-            case "checkemail":
-	      email = request.getParameter("email").toString();
-              jResponse = checkEmail(email).toString();
-              break;
-            case "login":
-	      email = request.getParameter("email").toString();
-              jResponse = doLogin(email, "notset").toString();
-              break;
-            case "register":
-	      email = request.getParameter("email").toString();
-              String firstName = request.getParameter("firstName").toString();
-              String lastName = request.getParameter("lastName").toString();
-              jResponse = doRegister(email, firstName, lastName).toString();
-              break;
-            case "getdetails":
-              String[] params = request.getParameterValues("params");
-              userId = Integer.parseInt(request.getParameter("userid"));
-              jResponse = getDetails(userId, params).toString();
-              break;
-            case "getfavourites":
-              String[] orderBy = request.getParameterValues("orderby"); // column name comes first, then order (ASC|DESC)
-              userId = Integer.parseInt(request.getParameter("userid"));
-              jResponse = getFavourites(userId, orderBy).toString();
-              break;
-            default:
-              error = Utility.addToObject(error, "error", "action not specified"); 
-              jResponse = error.toString();
-              break;
-          }
-        } catch (Exception e) {
-          e.printStackTrace();
-          try {
-            error = Utility.addToObject(error, "error", "action not specified");
-            jResponse = error.toString();
-          } catch (JSONException json) {
-            json.printStackTrace();
-          }
-        }
-        out.write(jResponse);
-	out.close();
+  protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    response.setContentType("application/json");
+    PrintWriter out = response.getWriter();
+    JSONObject error = new JSONObject(); 
+    String jResponse = null;
+    try {
+      String action = request.getParameter("action").toString();
+      String email;
+      int userId;
+      switch (action) {
+        case "checkemail":
+          email = request.getParameter("email").toString();
+          jResponse = checkEmail(email).toString();
+          break;
+        case "login":
+          email = request.getParameter("email").toString();
+          jResponse = doLogin(email, "notset").toString();
+          break;
+        case "register":
+          email = request.getParameter("email").toString();
+          String firstName = request.getParameter("firstName").toString();
+          String lastName = request.getParameter("lastName").toString();
+          jResponse = doRegister(email, firstName, lastName).toString();
+          break;
+        case "getdetails":
+          String[] params = request.getParameterValues("params");
+          userId = Integer.parseInt(request.getParameter("userid"));
+          jResponse = getDetails(userId, params).toString();
+          break;
+        case "getfavourites":
+          String orderByColumn = request.getParameterValues("orderbycolumn");
+          String orderByDir = request.getparameterValues("orderbydir"); 
+          userId = Integer.parseInt(request.getParameter("userid"));
+          jResponse = getFavourites(userId, orderByColumn, orderByDir).toString();
+          break;
+        default:
+          error = Utility.addToObject(error, "error", "action not specified"); 
+          jResponse = error.toString();
+          break;
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      try {
+        error = Utility.addToObject(error, "error", "action not specified");
+        jResponse = error.toString();
+      } catch (JSONException json) {
+        json.printStackTrace();
+      }
     }
+    out.write(jResponse);
+    out.close();
+  }
     
 }
