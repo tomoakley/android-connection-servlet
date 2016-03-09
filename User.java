@@ -121,8 +121,9 @@ public class User extends HttpServlet {
               jResponse = getDetails(userId, params).toString();
               break;
             case "getfavourites":
+              String[] orderBy = request.getParameterValues("orderby"); // column name comes first, then order (ASC|DESC)
               userId = Integer.parseInt(request.getParameter("userid"));
-              jResponse = getFavourites(userId).toString();
+              jResponse = getFavourites(userId, orderBy).toString();
               break;
             default:
               error = Utility.addToObject(error, "error", "action not specified"); 

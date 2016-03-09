@@ -88,7 +88,7 @@ public class Login {
     return details;
   }
 
-  public ArrayList<Integer> getFavourites(int userId) throws Exception {
+  public ArrayList<Integer> getFavourites(int userId, String[] orderBy) throws Exception {
     DBConnection dbConnection = null;
     Connection con = null;
     String paramString = "";
@@ -97,7 +97,7 @@ public class Login {
       dbConnection = new DBConnection(Constants.DB_CLASS, Constants.DB_URL, Constants.DB_USER, Constants.DB_PASSWORD);
       con = dbConnection.createConnection();
       Statement statement = con.createStatement();
-      ResultSet results = statement.executeQuery("SELECT plaqueId FROM favouritePlaques WHERE userId ='" + userId + "'"); 
+      ResultSet results = statement.executeQuery("SELECT plaqueId FROM favouritePlaques WHERE userId ='" + userId + "' ORDER BY " + orderBy[0] + " " + orderBy[1]); 
       while (results.next()) {
 	favourites.add(results.getInt("plaqueId"));
       }
