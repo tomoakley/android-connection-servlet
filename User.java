@@ -76,11 +76,11 @@ public class User extends HttpServlet {
     return response;
   }
 
-  public JSONObject getFavourites(int userId) throws Exception {
+  public JSONObject getFavourites(int userId, String[] orderBy) throws Exception {
     JSONObject response = new JSONObject();
     try {
       Login user = new Login();
-      ArrayList<Integer> favourites = user.getFavourites(userId);
+      ArrayList<Integer> favourites = user.getFavourites(userId, orderBy);
       response.put("list", favourites);
     } catch (Exception e) {
       e.printStackTrace();
