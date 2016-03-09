@@ -121,7 +121,7 @@ public class User extends HttpServlet {
           break;
         case "getfavourites":
           String orderByColumn = request.getParameter("orderbycolumn").toString();
-          String orderByDir = request.getParameter("orderbydir").toString; 
+          String orderByDir = request.getParameter("orderbydir").toString(); 
           userId = Integer.parseInt(request.getParameter("userid"));
           jResponse = getFavourites(userId, orderByColumn, orderByDir).toString();
           break;
