@@ -97,7 +97,7 @@ public class Login {
       dbConnection = new DBConnection(Constants.DB_CLASS, Constants.DB_URL, Constants.DB_USER, Constants.DB_PASSWORD);
       con = dbConnection.createConnection();
       Statement statement = con.createStatement();
-      ResultSet results = statement.executeQuery("SELECT plaqueId FROM favouritePlaques WHERE userId ='" + userId + "' ORDER BY " + orderBy[0] + " " + orderBy[1]); 
+      ResultSet results = statement.executeQuery("SELECT plaqueId FROM favouritePlaques WHERE userId ='" + userId + "' ORDER BY " + orderByCol + " " + orderByDir); 
       while (results.next()) {
 	favourites.add(results.getInt("plaqueId"));
       }
